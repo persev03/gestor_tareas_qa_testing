@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tareas</title>
+    <style>
+        /* Estilos generales para centrar el contenido en la página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        /* Estilos para el contenedor de la aplicación de tareas */
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        /* Estilo del título principal */
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        /* Estilo del campo de entrada de texto */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        /* Estilo del botón para agregar tareas */
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Efecto hover para el botón cuando se pasa el ratón por encima */
+        button:hover {
+            background-color: #218838;
+        }
+        /* Elimina los estilos de la lista y añade márgenes */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        /* Estilos para los elementos de la lista de tareas */
+        li {
+            font-size: 18px;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+        /* Estilos para el botón de eliminación de tareas dentro de la lista */
+        li button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Título de la aplicación -->
+        <h1>Gestión de Tareas</h1>
+
+        <!-- Campo de entrada para agregar nuevas tareas -->
+        <input type="text" id="taskInput" placeholder="Nueva tarea...">
+        
+        <!-- Botón para agregar una nueva tarea, llama a la función addTask() -->
+        <button onclick="addTask()">Agregar Tarea</button>
+
+        <!-- Lista donde se mostrarán las tareas añadidas -->
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        // Variable global que almacenará todas las tareas
+        let tasks = [];
+
+        // Función que se ejecuta al hacer clic en el botón de agregar tarea
+        function addTask() {
+            // Se obtiene el valor del campo de texto
+            const taskInput = document.getElementById('taskInput');
+            const task = taskInput.value.trim(); // Se eliminan espacios en blanco al principio y al final
+
+            // Si el valor no está vacío, se agrega a la lista de tareas
+            if (task) {
+                tasks.push(task);  // Se añade la nueva tarea al array 'tasks'
+                renderTasks();     // Se actualiza la visualización de la lista de tareas
+                taskInput.value = ''; // Se limpia el campo de texto
+            } else {
+                // Si el campo está vacío, se muestra una alerta
+                alert('Por favor ingresa una tarea válida');
+            }
+        }
+
+        // Función que renderiza (muestra) las tareas en la lista de la interfaz
+        function renderTasks() {
+            // Se obtiene el elemento ul donde se mostrarán las tareas
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = ''; // Se limpia el contenido previo de la lista
+
+            // Se recorren todas las tareas almacenadas en el array 'tasks'
+            tasks.forEach((task, index) => {
+                // Se crea un nuevo elemento de lista para cada tarea
+                const li = document.createElement('li');
+                
+                // Se agrega el texto de la tarea y un botón de eliminar
+                li.innerHTML = `${task} <button onclick="deleteTask(${index})">Eliminar</button>`;
+                
+                // Se añade el elemento li (tarea) a la lista ul
+                taskList.appendChild(li);
+            });
+        }
+
+        // Función que elimina una tarea de la lista
+        function deleteTask(index) {
+            // Se elimina la tarea en la posición especificada (index) del array 'tasks'
+            tasks.splice(index, 1);
+
+            // Se vuelve a renderizar la lista actualizada
+            renderTasks();
+        }
+    </script>
+</body>
+</html>
